@@ -683,9 +683,13 @@
 	"Export chat (.json)": "Exportar chat (.json)",
 	"Export Chats": "Exportar Chats",
 	"Export Config to JSON File": "Exportar Configuração para Arquivo JSON",
+										  
+									 
 	"Export Presets": "Exportar Presets",
 	"Export Prompt Suggestions": "Exportar Sugestões de Prompt",
+									  
 	"Export to CSV": "Exportar para CSV",
+										
 	"Export Users": "Exportar Usuários",
 	"External": "Externo",
 	"External Document Loader URL required.": "URL do carregador de documentos externo necessária.",
@@ -710,8 +714,7 @@
 	"Failed to load file content.": "Falha ao carregar o conteúdo do arquivo.",
 	"Failed to move chat": "Falha ao mover o chat",
 	"Failed to read clipboard contents": "Falha ao ler o conteúdo da área de transferência",
-	"Failed to render diagram": "Falha ao renderizar o diagrama",
-	"Failed to render visualization": "",
+	"Failed to render diagram": "",
 	"Failed to save connections": "Falha ao salvar conexões",
 	"Failed to save conversation": "Falha ao salvar a conversa",
 	"Failed to save models configuration": "Falha ao salvar a configuração dos modelos",
@@ -744,8 +747,8 @@
 	"Firecrawl API Base URL": "URL base da API do Firecrawl",
 	"Firecrawl API Key": "Chave de API do Firecrawl",
 	"Floating Quick Actions": "Ações rápidas flutuantes",
-	"Focus Chat Input": "",
-	"Folder": "Pasta",
+	"Focus chat input": "Focar entrada de chat",
+	"Folder": "",
 	"Folder Background Image": "Imagem de fundo da pasta",
 	"Folder deleted successfully": "Pasta excluída com sucesso",
 	"Folder Name": "Nome da Pasta",
@@ -862,10 +865,14 @@
 	"Import Chats": "Importar Chats",
 	"Import Config from JSON File": "Importar Configurações de JSON",
 	"Import From Link": "Importar do link",
+										  
+									 
 	"Import Notes": "Importar Notas",
 	"Import Presets": "Importar Presets",
 	"Import Prompt Suggestions": "Importar Sugestões de Prompt",
+									  
 	"Import successful": "Importação bem-sucedida",
+										
 	"Important Update": "Atualização importante",
 	"In order to force OCR, performing OCR must be enabled.": "Para forçar o OCR, a execução do OCR deve estar habilitada.",
 	"Include": "Incluir",
@@ -1065,8 +1072,7 @@
 	"New Model": "Novo Modelo",
 	"New Note": "Nota Nota",
 	"New Password": "Nova Senha",
-	"New Prompt": "Novo Prompt",
-	"New Temporary Chat": "",
+	"New Prompt": "",
 	"New Tool": "Nova Ferrameta",
 	"new-channel": "novo-canal",
 	"Next message": "Próxima mensagem",
