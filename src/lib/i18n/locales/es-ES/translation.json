@@ -711,7 +711,10 @@
 	"Failed to move chat": "Fallo al mover el chat",
 	"Failed to read clipboard contents": "Fallo al leer el contenido del portapapeles",
 	"Failed to render diagram": "Fallo al renderizar el diagrama",
+<<<<<<< HEAD
 	"Failed to render visualization": "",
+=======
+>>>>>>> c5954b7ee (UPD: i18n: es-ES Translation v0.6.34)
 	"Failed to save connections": "Fallo al guardar las conexiones",
 	"Failed to save conversation": "Fallo al guardar la conversación",
 	"Failed to save models configuration": "Fallo al guardar la configuración de los modelos",
@@ -744,7 +747,11 @@
 	"Firecrawl API Base URL": "URL Base de API de Firecrawl",
 	"Firecrawl API Key": "Clave de API de Firecrawl",
 	"Floating Quick Actions": "Acciones Rápidas Flotantes",
+<<<<<<< HEAD
 	"Focus Chat Input": "",
+=======
+	"Focus chat input": "Enfocar campo de chat",
+>>>>>>> c5954b7ee (UPD: i18n: es-ES Translation v0.6.34)
 	"Folder": "Carpeta",
 	"Folder Background Image": "Imagen de Fondo de la Carpeta",
 	"Folder deleted successfully": "Carpeta eliminada correctamente",
@@ -1066,7 +1073,10 @@
 	"New Note": "Nueva Nota",
 	"New Password": "Nueva Contraseña",
 	"New Prompt": "Nuevo Indicador",
+<<<<<<< HEAD
 	"New Temporary Chat": "",
+=======
+>>>>>>> c5954b7ee (UPD: i18n: es-ES Translation v0.6.34)
 	"New Tool": "Nueva Herramienta",
 	"new-channel": "nuevo-canal",
 	"Next message": "Siguiente mensaje",
