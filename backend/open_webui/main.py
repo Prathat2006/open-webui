@@ -494,7 +494,7 @@ from open_webui.utils.redis import get_sentinels_from_env
 
 
 from open_webui.constants import ERROR_MESSAGES
-
+from open_webui.Custom.getdocfrommd import convert_md_file
 
 if SAFE_MODE:
     print("SAFE MODE ENABLED")
@@ -522,14 +522,14 @@ class SPAStaticFiles(StaticFiles):
 
 print(
     rf"""
- ██████╗ ██████╗ ███████╗███╗   ██╗    ██╗    ██╗███████╗██████╗ ██╗   ██╗██╗
-██╔═══██╗██╔══██╗██╔════╝████╗  ██║    ██║    ██║██╔════╝██╔══██╗██║   ██║██║
-██║   ██║██████╔╝█████╗  ██╔██╗ ██║    ██║ █╗ ██║█████╗  ██████╔╝██║   ██║██║
-██║   ██║██╔═══╝ ██╔══╝  ██║╚██╗██║    ██║███╗██║██╔══╝  ██╔══██╗██║   ██║██║
-╚██████╔╝██║     ███████╗██║ ╚████║    ╚███╔███╔╝███████╗██████╔╝╚██████╔╝██║
- ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═══╝     ╚══╝╚══╝ ╚══════╝╚═════╝  ╚═════╝ ╚═╝
+ ██████╗ ██████╗ ███████╗███╗   ██╗           ██╗    ██╗███████╗██████╗ ██╗   ██╗██╗
+██╔═══██╗██╔══██╗██╔════╝████╗  ██║           ██║    ██║██╔════╝██╔══██╗██║   ██║██║
+██║   ██║██████╔╝█████╗  ██╔██╗ ██║  ║█████║  ██║ █╗ ██║█████╗  ██████╔╝██║   ██║██║
+██║   ██║██╔═══╝ ██╔══╝  ██║╚██╗██║  ╚═════╝  ██║███╗██║██╔══╝  ██╔══██╗██║   ██║██║
+╚██████╔╝██║     ███████╗██║ ╚████║           ╚███╔███╔╝███████╗██████╔╝╚██████╔╝██║
+ ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═══╝            ╚══╝╚══╝ ╚══════╝╚═════╝  ╚═════╝ ╚═╝
 
-
+Modified version by Prathmesh Hatwar
 v{VERSION} - building the best AI user interface.
 {f"Commit: {WEBUI_BUILD_HASH}" if WEBUI_BUILD_HASH != "dev-build" else ""}
 https://github.com/open-webui/open-webui
@@ -1234,6 +1234,7 @@ async def inspect_websocket(request: Request, call_next):
 app.add_middleware(
     CORSMiddleware,
     allow_origins=CORS_ALLOW_ORIGIN,
+        # allow_origins=["http://localhost:5173"],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -1263,6 +1264,7 @@ app.include_router(users.router, prefix="/api/v1/users", tags=["users"])
 app.include_router(channels.router, prefix="/api/v1/channels", tags=["channels"])
 app.include_router(chats.router, prefix="/api/v1/chats", tags=["chats"])
 app.include_router(notes.router, prefix="/api/v1/notes", tags=["notes"])
+# app.include_router(notes.router, prefix="/api/v1/calendar", tags=["calendar"])
 
 
 app.include_router(models.router, prefix="/api/v1/models", tags=["models"])
@@ -2040,6 +2042,19 @@ async def healthcheck_with_db():
 
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
+@app.post("/convert-md-to-docx")
+async def convert_md_to_docx(file: UploadFile = File(...)):
+    try:
+        file_bytes = await file.read()
+        output_path = convert_md_file(file_bytes, file.filename)
+    except Exception as e:
+        return {"error": str(e)}
+    
+    return FileResponse(
+        output_path,
+        filename=f"{file.filename[:-3]}.docx",
+        media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    )
 
 @app.get("/cache/{path:path}")
 async def serve_cache_file(

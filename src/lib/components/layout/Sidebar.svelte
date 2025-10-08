@@ -591,7 +591,27 @@
 						</button>
 					</Tooltip>
 				</div>
+				<!-- <div class="">
+					<Tooltip content={$i18n.t('Calendar')} placement="right">
+						<a
+							class=" cursor-pointer flex rounded-xl hover:bg-gray-100 dark:hover:bg-gray-850 transition group"
+							href="/"
+							draggable="false"
+							on:click={async (e) => {
+								e.stopImmediatePropagation();
+								e.preventDefault();
 
+								goto('/');
+								newChatHandler();
+							}}
+							aria-label={$i18n.t('Calendar')}
+						>
+							<div class=" self-center flex items-center justify-center size-9">
+								<PencilSquare className="size-4.5" />
+							</div>
+						</a>
+					</Tooltip>
+				</div> -->
 				{#if ($config?.features?.enable_notes ?? false) && ($user?.role === 'admin' || ($user?.permissions?.features?.notes ?? true))}
 					<div class="">
 						<Tooltip content={$i18n.t('Notes')} placement="right">

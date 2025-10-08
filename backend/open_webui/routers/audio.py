@@ -1049,25 +1049,27 @@ def get_available_models(request: Request) -> list[dict]:
 async def get_models(request: Request, user=Depends(get_verified_user)):
     return {"models": get_available_models(request)}
 
-
 def get_available_voices(request) -> dict:
     """Returns {voice_id: voice_name} dict"""
     available_voices = {}
+
     if request.app.state.config.TTS_ENGINE == "openai":
-        # Use custom endpoint if not using the official OpenAI API URL
-        if not request.app.state.config.TTS_OPENAI_API_BASE_URL.startswith(
-            "https://api.openai.com"
-        ):
+        base_url = request.app.state.config.TTS_OPENAI_API_BASE_URL
+
+        # Custom localhost endpoint handling
+        if base_url.startswith("http://localhost:4123"):
             try:
-                response = requests.get(
-                    f"{request.app.state.config.TTS_OPENAI_API_BASE_URL}/audio/voices"
-                )
+                response = requests.get(f"{base_url}/audio/voices")
                 response.raise_for_status()
                 data = response.json()
                 voices_list = data.get("voices", [])
-                available_voices = {voice["id"]: voice["name"] for voice in voices_list}
+
+                # Use 'name' as id for this specific URL
+                available_voices = {voice["name"]: voice["name"] for voice in voices_list}
+
             except Exception as e:
                 log.error(f"Error fetching voices from custom endpoint: {str(e)}")
+                # fallback voices
                 available_voices = {
                     "alloy": "alloy",
                     "echo": "echo",
@@ -1076,15 +1078,29 @@ def get_available_voices(request) -> dict:
                     "nova": "nova",
                     "shimmer": "shimmer",
                 }
+
+        # Official OpenAI API URL or other URLs
         else:
-            available_voices = {
-                "alloy": "alloy",
-                "echo": "echo",
-                "fable": "fable",
-                "onyx": "onyx",
-                "nova": "nova",
-                "shimmer": "shimmer",
-            }
+            try:
+                response = requests.get(f"{base_url}/audio/voices")
+                response.raise_for_status()
+                data = response.json()
+                voices_list = data.get("voices", [])
+                # Expect 'id' field for other endpoints
+                available_voices = {voice["id"]: voice["name"] for voice in voices_list}
+
+            except Exception as e:
+                log.error(f"Error fetching voices from OpenAI endpoint: {str(e)}")
+                # fallback
+                available_voices = {
+                    "alloy": "alloy",
+                    "echo": "echo",
+                    "fable": "fable",
+                    "onyx": "onyx",
+                    "nova": "nova",
+                    "shimmer": "shimmer",
+                }
+
     elif request.app.state.config.TTS_ENGINE == "elevenlabs":
         try:
             available_voices = get_elevenlabs_voices(
