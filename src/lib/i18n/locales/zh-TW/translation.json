@@ -711,7 +711,10 @@
 	"Failed to move chat": "移動對話失敗",
 	"Failed to read clipboard contents": "讀取剪貼簿內容失敗",
 	"Failed to render diagram": "繪製圖表失敗",
+<<<<<<< HEAD
 	"Failed to render visualization": "繪製圖表失敗",
+=======
+>>>>>>> e6a2fbbb9 (i18n: improve Chinese translation)
 	"Failed to save connections": "儲存連線失敗",
 	"Failed to save conversation": "儲存對話失敗",
 	"Failed to save models configuration": "儲存模型設定失敗",
@@ -744,7 +747,11 @@
 	"Firecrawl API Base URL": "Firecrawl API 基底 URL",
 	"Firecrawl API Key": "Firecrawl API 金鑰",
 	"Floating Quick Actions": "浮動快速操作",
+<<<<<<< HEAD
 	"Focus Chat Input": "",
+=======
+	"Focus chat input": "聚焦對話輸入",
+>>>>>>> e6a2fbbb9 (i18n: improve Chinese translation)
 	"Folder": "分組",
 	"Folder Background Image": "分組背景圖",
 	"Folder deleted successfully": "成功刪除分組",
@@ -1066,7 +1073,10 @@
 	"New Note": "新增筆記",
 	"New Password": "新密碼",
 	"New Prompt": "新增提示詞",
+<<<<<<< HEAD
 	"New Temporary Chat": "",
+=======
+>>>>>>> e6a2fbbb9 (i18n: improve Chinese translation)
 	"New Tool": "新增工具",
 	"new-channel": "new-channel",
 	"Next message": "下一條訊息",

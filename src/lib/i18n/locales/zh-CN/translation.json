@@ -516,7 +516,11 @@
 	"Embedding Model": "嵌入模型",
 	"Embedding Model Engine": "嵌入模型引擎",
 	"Embedding model set to \"{{embedding_model}}\"": "嵌入模型设置为 “{{embedding_model}}”",
+<<<<<<< HEAD
 	"Enable API Key": "启用接口密钥",
+=======
+	"Enable API Key": "启用 API 密钥",
+>>>>>>> e6a2fbbb9 (i18n: improve Chinese translation)
 	"Enable autocomplete generation for chat messages": "启用对话输入框内容自动补全",
 	"Enable Code Execution": "启用代码执行",
 	"Enable Code Interpreter": "启用代码解释器",
@@ -540,7 +544,11 @@
 	"Enter additional headers in JSON format": "输入 JSON 格式的额外 HTTP 标头",
 	"Enter additional headers in JSON format (e.g. {{'{{\"X-Custom-Header\": \"value\"}}'}})": "输入 JSON 格式的额外 HTTP 标头（例如：{{'{{\"X-Custom-Header\": \"value\"}}'}}）",
 	"Enter additional parameters in JSON format": "输入 JSON 格式的额外参数",
+<<<<<<< HEAD
 	"Enter api auth string (e.g. username:password)": "输入接口鉴权路径（例如：用户名:密码）",
+=======
+	"Enter api auth string (e.g. username:password)": "输入 API 鉴权路径（例如：用户名:密码）",
+>>>>>>> e6a2fbbb9 (i18n: improve Chinese translation)
 	"Enter Application DN": "输入 Application DN",
 	"Enter Application DN Password": "输入 Application DN 密码",
 	"Enter Bing Search V7 Endpoint": "输入 Bing Search V7 端点",
@@ -710,8 +718,12 @@
 	"Failed to load file content.": "文件内容加载失败",
 	"Failed to move chat": "移动对话失败",
 	"Failed to read clipboard contents": "读取剪贴板内容失败",
+<<<<<<< HEAD
 	"Failed to render diagram": "图表渲染失败",
 	"Failed to render visualization": "图表渲染失败",
+=======
+	"Failed to render diagram": "渲染图表失败",
+>>>>>>> e6a2fbbb9 (i18n: improve Chinese translation)
 	"Failed to save connections": "保存连接失败",
 	"Failed to save conversation": "保存对话失败",
 	"Failed to save models configuration": "保存模型配置失败",
@@ -744,7 +756,11 @@
 	"Firecrawl API Base URL": "Firecrawl 接口地址",
 	"Firecrawl API Key": "Firecrawl 接口密钥",
 	"Floating Quick Actions": "快捷操作浮窗",
+<<<<<<< HEAD
 	"Focus Chat Input": "",
+=======
+	"Focus chat input": "激活对话输入框",
+>>>>>>> e6a2fbbb9 (i18n: improve Chinese translation)
 	"Folder": "分组",
 	"Folder Background Image": "分组背景图",
 	"Folder deleted successfully": "分组删除成功",
@@ -1066,7 +1082,10 @@
 	"New Note": "新笔记",
 	"New Password": "新密码",
 	"New Prompt": "创建提示词",
+<<<<<<< HEAD
 	"New Temporary Chat": "",
+=======
+>>>>>>> e6a2fbbb9 (i18n: improve Chinese translation)
 	"New Tool": "新工具",
 	"new-channel": "新频道",
 	"Next message": "下一条消息",
