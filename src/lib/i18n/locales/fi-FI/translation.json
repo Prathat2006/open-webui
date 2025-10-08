@@ -711,7 +711,10 @@
 	"Failed to move chat": "Keskustelun siirto epäonnistui",
 	"Failed to read clipboard contents": "Leikepöydän sisällön lukeminen epäonnistui",
 	"Failed to render diagram": "Diagrammin renderöinti epäonnistui",
+<<<<<<< HEAD
 	"Failed to render visualization": "",
+=======
+>>>>>>> e6d416264 (Update fi-FI translation.json)
 	"Failed to save connections": "Yhteyksien tallentaminen epäonnistui",
 	"Failed to save conversation": "Keskustelun tallentaminen epäonnistui",
 	"Failed to save models configuration": "Mallien määrityksen tallentaminen epäonnistui",
@@ -744,7 +747,11 @@
 	"Firecrawl API Base URL": "Firecrawl API -verkko-osoite",
 	"Firecrawl API Key": "Firecrawl API-avain",
 	"Floating Quick Actions": "Kelluvat pikakomennot",
+<<<<<<< HEAD
 	"Focus Chat Input": "",
+=======
+	"Focus chat input": "Fokusoi syöttökenttään",
+>>>>>>> e6d416264 (Update fi-FI translation.json)
 	"Folder": "Kansio",
 	"Folder Background Image": "Kansion taustakuva",
 	"Folder deleted successfully": "Kansio poistettu onnistuneesti",
@@ -793,7 +800,11 @@
 	"Generate": "Luo",
 	"Generate an image": "Luo kuva",
 	"Generate Image": "Luo kuva",
+<<<<<<< HEAD
 	"Generate Message Pair": "",
+=======
+	"Generate prompt pair": "Luo kehotepari",
+>>>>>>> e6d416264 (Update fi-FI translation.json)
 	"Generated Image": "Luo kuva",
 	"Generating search query": "Luodaan hakukyselyä",
 	"Generating...": "Luodaan...",
@@ -1066,7 +1077,10 @@
 	"New Note": "Uusi muistiinpano",
 	"New Password": "Uusi salasana",
 	"New Prompt": "Uusi kehoite",
+<<<<<<< HEAD
 	"New Temporary Chat": "",
+=======
+>>>>>>> e6d416264 (Update fi-FI translation.json)
 	"New Tool": "Uusi työkalu",
 	"new-channel": "uusi-kanava",
 	"Next message": "Seuraava viesti",
@@ -1287,7 +1301,10 @@
 	"Refused when it shouldn't have": "Kieltäytyi, vaikka ei olisi pitänyt",
 	"Regenerate": "Regeneroi",
 	"Regenerate Menu": "Regenerointi ikkuna",
+<<<<<<< HEAD
 	"Regenerate Response": "",
+=======
+>>>>>>> e6d416264 (Update fi-FI translation.json)
 	"Register Again": "Rekisteröi uudelleen",
 	"Register Client": "Rekiströi asiakasohjelma",
 	"Registered": "Rekisteröity",
