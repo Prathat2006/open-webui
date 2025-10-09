@@ -52,17 +52,10 @@
 				<Tooltip content={connection?.type === 'mcp' ? $i18n.t('MCP') : $i18n.t('OpenAPI')}>
 					<WrenchAlt />
 				</Tooltip>
-
-				{#if connection?.info?.name}
-					<div class=" capitalize outline-hidden w-full bg-transparent">
-						{connection?.info?.name ?? connection?.url}
-						<span class="text-gray-500">{connection?.info?.id ?? ''}</span>
-					</div>
-				{:else}
-					<div>
-						{connection?.url}
-					</div>
-				{/if}
+				<div class=" capitalize outline-hidden w-full bg-transparent">
+					{connection?.info?.name ?? connection?.url}
+					<span class="text-gray-500">{connection?.info?.id ?? ''}</span>
+				</div>
 			</div>
 		</div>
 	</Tooltip>
