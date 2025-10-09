@@ -63,69 +63,59 @@
     getContents();
   }
 
-  const getContents = () => {
-    contents = [];
-    messages.forEach((message) => {
-      if (message?.role !== 'user' && message?.content) {
-        const codeBlockContents = message.content.match(/```[\s\S]*?```/g);
-        let codeBlocks: { lang: string; code: string }[] = [];
+	const getContents = () => {
+		contents = [];
+		messages.forEach((message) => {
+			if (message?.role !== 'user' && message?.content) {
+				const codeBlockContents = message.content.match(/```[\s\S]*?```/g);
+				let codeBlocks = [];
 
-        if (codeBlockContents) {
-          codeBlockContents.forEach((block) => {
-            const lang = block.split('\n')[0].replace('```', '').trim().toLowerCase();
-            const code = block.replace(/```[\s\S]*?\n/, '').replace(/```$/, '');
-            codeBlocks.push({ lang, code });
-          });
-        }
+				if (codeBlockContents) {
+					codeBlockContents.forEach((block) => {
+						const lang = block.split('\n')[0].replace('```', '').trim().toLowerCase();
+						const code = block.replace(/```[\s\S]*?\n/, '').replace(/```$/, '');
+						codeBlocks.push({ lang, code });
+					});
+				}
 
-        let htmlContent = '';
-        let cssContent = '';
-        let jsContent = '';
-        let markdownContent = '';
-        let sourceCode = '';
+				let htmlContent = '';
+				let cssContent = '';
+				let jsContent = '';
 
-        codeBlocks.forEach((block) => {
-          const { lang, code } = block;
-          if (lang === 'html') {
-            htmlContent += code + '\n';
-            sourceCode += `<!-- HTML -->\n${code}\n\n`;
-          } else if (lang === 'css') {
-            cssContent += code + '\n';
-            sourceCode += `/* CSS */\n${code}\n\n`;
-          } else if (lang === 'javascript' || lang === 'js') {
-            jsContent += code + '\n';
-            sourceCode += `// JavaScript\n${code}\n\n`;
-          } else if (lang === 'markdown' || lang === 'md') {
-            markdownContent += code + '\n';
-            sourceCode += `<!-- Markdown -->\n${code}\n\n`;
-          }
-        });
+				codeBlocks.forEach((block) => {
+					const { lang, code } = block;
 
-        const inlineHtml = message.content.match(/<html>[\s\S]*?\/html>/gi);
-        const inlineCss = message.content.match(/<style>[\s\S]*?\/style>/gi);
-        const inlineJs = message.content.match(/<script>[\s\S]*?\/script>/gi);
+					if (lang === 'html') {
+						htmlContent += code + '\n';
+					} else if (lang === 'css') {
+						cssContent += code + '\n';
+					} else if (lang === 'javascript' || lang === 'js') {
+						jsContent += code + '\n';
+					}
+				});
 
-        if (inlineHtml) {
-          inlineHtml.forEach((block) => {
-            const content = block.replace(/<\/?html>/gi, '');
-            htmlContent += content + '\n';
-            sourceCode += `<!-- Inline HTML -->\n${content}\n\n`;
-          });
-        }
-        if (inlineCss) {
-          inlineCss.forEach((block) => {
-            const content = block.replace(/<\/?style>/gi, '');
-            cssContent += content + '\n';
-            sourceCode += `/* Inline CSS */\n${content}\n\n`;
-          });
-        }
-        if (inlineJs) {
-          inlineJs.forEach((block) => {
-            const content = block.replace(/<\/?script>/gi, '');
-            jsContent += content + '\n';
-            sourceCode += `// Inline JavaScript\n${content}\n\n`;
-          });
-        }
+				const inlineHtml = message.content.match(/<html>[\s\S]*?<\/html>/gi);
+				const inlineCss = message.content.match(/<style>[\s\S]*?<\/style>/gi);
+				const inlineJs = message.content.match(/<script>[\s\S]*?<\/script>/gi);
+
+				if (inlineHtml) {
+					inlineHtml.forEach((block) => {
+						const content = block.replace(/<\/?html>/gi, ''); // Remove <html> tags
+						htmlContent += content + '\n';
+					});
+				}
+				if (inlineCss) {
+					inlineCss.forEach((block) => {
+						const content = block.replace(/<\/?style>/gi, ''); // Remove <style> tags
+						cssContent += content + '\n';
+					});
+				}
+				if (inlineJs) {
+					inlineJs.forEach((block) => {
+						const content = block.replace(/<\/?script>/gi, ''); // Remove <script> tags
+						jsContent += content + '\n';
+					});
+				}
 
         if (htmlContent || cssContent || jsContent) {
 					const renderedContent = `<!DOCTYPE html>
