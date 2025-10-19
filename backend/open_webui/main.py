@@ -453,6 +453,11 @@ from open_webui.env import (
     ENABLE_STAR_SESSIONS_MIDDLEWARE,
 )
 
+RED = "\033[31m"
+GREEN = "\033[32m"
+YELLOW = "\033[33m"
+BLUE = "\033[34m"
+RESET = "\033[0m"
 
 from open_webui.utils.models import (
     get_all_models,
@@ -525,21 +530,23 @@ class SPAStaticFiles(StaticFiles):
 
 
 print(
-    rf"""
- ██████╗ ██████╗ ███████╗███╗   ██╗           ██╗    ██╗███████╗██████╗ ██╗   ██╗██╗
-██╔═══██╗██╔══██╗██╔════╝████╗  ██║           ██║    ██║██╔════╝██╔══██╗██║   ██║██║
-██║   ██║██████╔╝█████╗  ██╔██╗ ██║  ║█████║  ██║ █╗ ██║█████╗  ██████╔╝██║   ██║██║
-██║   ██║██╔═══╝ ██╔══╝  ██║╚██╗██║  ╚═════╝  ██║███╗██║██╔══╝  ██╔══██╗██║   ██║██║
-╚██████╔╝██║     ███████╗██║ ╚████║           ╚███╔███╔╝███████╗██████╔╝╚██████╔╝██║
- ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═══╝            ╚══╝╚══╝ ╚══════╝╚═════╝  ╚═════╝ ╚═╝
+    f"""
+{RED}▄██████▄     ▄███████▄    ▄████████ ███▄▄▄▄              ▄█     █▄     ▄████████ ▀█████████▄  ███    █▄   ▄█  {RESET}
+{RED}███    ███   ███    ███   ███    ███ ███▀▀▀██▄           ███     ███   ███    ███   ███    ███ ███    ███ ███ {RESET}
+{RED}███    ███   ███    ███   ███    █▀  ███   ███           ███     ███   ███    █▀    ███    ███ ███    ███ ███▌{RESET}
+{RED}███    ███   ███    ███  ▄███▄▄▄     ███   ███           ███     ███  ▄███▄▄▄      ▄███▄▄▄██▀  ███    ███ ███▌{RESET}
+{RED}███    ███ ▀█████████▀  ▀▀███▀▀▀     ███   ███  ██████   ███     ███ ▀▀███▀▀▀     ▀▀███▀▀▀██▄  ███    ███ ███▌{RESET}
+{RED}███    ███   ███          ███    █▄  ███   ███           ███     ███   ███    █▄    ███    ██▄ ███    ███ ███ {RESET}
+{RED}███    ███   ███          ███    ███ ███   ███           ███ ▄█▄ ███   ███    ███   ███    ███ ███    ███ ███ {RESET}
+{RED}▀██████▀   ▄████▀        ██████████  ▀█   █▀             ▀███▀███▀    ██████████ ▄█████████▀  ████████▀  █▀   {RESET}
 
-Modified version by Prathmesh Hatwar
-v{VERSION} - building the best AI user interface.
-{f"Commit: {WEBUI_BUILD_HASH}" if WEBUI_BUILD_HASH != "dev-build" else ""}
-https://github.com/open-webui/open-webui
+{YELLOW}Modified version by Prathmesh Hatwar
+{f"Commit: {WEBUI_BUILD_HASH}" if WEBUI_BUILD_HASH != "dev-build" else ""}{RESET}
+{GREEN}v{VERSION} - building the best AI user interface.{RESET}
+
+{BLUE}https://github.com/open-webui/open-webui{RESET}
 """
 )
-
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -1262,8 +1269,8 @@ async def inspect_websocket(request: Request, call_next):
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=CORS_ALLOW_ORIGIN,
-        # allow_origins=["http://localhost:5173"],  
+    # allow_origins=CORS_ALLOW_ORIGIN,
+        allow_origins=["http://localhost:5173"],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
