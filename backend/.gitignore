@@ -2,6 +2,9 @@ __pycache__
 .env
 _old
 uploads
+outputs
+app
+app/data
 .ipynb_checkpoints
 *.db
 _test
