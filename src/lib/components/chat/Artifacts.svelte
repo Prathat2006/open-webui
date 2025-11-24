@@ -73,7 +73,7 @@
 				let htmlContent = '';
 				let cssContent = '';
 				let jsContent = '';
-
+        let markdownContent = '';
 				if (codeBlockContents) {
 					codeBlockContents.forEach((block) => {
 						const lang = block.split('\n')[0].replace('```', '').trim().toLowerCase();
@@ -90,7 +90,10 @@
 							cssContent += code + '\n';
 						} else if (lang === 'javascript' || lang === 'js') {
 							jsContent += code + '\n';
-						}
+						
+            } else if (lang === 'markdown' || lang === 'md') { // <-- ADD THIS
+             markdownContent += code + '\n'; // <-- AND ADD THIS
+            }
 					});
 				} else {
 					const inlineHtml = message.content.match(/<html>[\s\S]*?<\/html>/gi);
