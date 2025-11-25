@@ -62,87 +62,57 @@
     messages = [];
     getContents();
   }
+function extractArtifactsFromMessage(message: string) {
+  const tokens = marked.lexer(message);
 
-	const getContents = () => {
-		contents = [];
-		messages.forEach((message) => {
-			if (message?.role !== 'user' && message?.content) {
-				const codeBlockContents = message.content.match(/```[\s\S]*?```/g);
-				let codeBlocks = [];
+  let html = "";
+  let css = "";
+  let js = "";
+  let markdown = "";
+  let codeBlocks: { lang: string; code: string }[] = [];
 
-				let htmlContent = '';
-				let cssContent = '';
-				let jsContent = '';
-        let markdownContent = '';
-				if (codeBlockContents) {
-					codeBlockContents.forEach((block) => {
-						const lang = block.split('\n')[0].replace('```', '').trim().toLowerCase();
-						const code = block.replace(/```[\s\S]*?\n/, '').replace(/```$/, '');
-						codeBlocks.push({ lang, code });
-					});
+  for (const token of tokens) {
+    if (token.type === "code") {
+      const lang = (token.lang || "").toLowerCase();
+      const code = token.text;
 
-					codeBlocks.forEach((block) => {
-						const { lang, code } = block;
+      if (lang === "html") html += code + "\n";
+      else if (lang === "css") css += code + "\n";
+      else if (lang === "js" || lang === "javascript") js += code + "\n";
+      else if (lang === "markdown" || lang === "md") markdown += code + "\n";
+      else codeBlocks.push({ lang, code });
 
-						if (lang === 'html') {
-							htmlContent += code + '\n';
-						} else if (lang === 'css') {
-							cssContent += code + '\n';
-						} else if (lang === 'javascript' || lang === 'js') {
-							jsContent += code + '\n';
-						
-            } else if (lang === 'markdown' || lang === 'md') { // <-- ADD THIS
-             markdownContent += code + '\n'; // <-- AND ADD THIS
-            }
-					});
-				} else {
-					const inlineHtml = message.content.match(/<html>[\s\S]*?<\/html>/gi);
-					const inlineCss = message.content.match(/<style>[\s\S]*?<\/style>/gi);
-					const inlineJs = message.content.match(/<script>[\s\S]*?<\/script>/gi);
+    } else if (token.type === "html") {
+      // Inline HTML content
+      html += token.text + "\n";
 
-					if (inlineHtml) {
-						inlineHtml.forEach((block) => {
-							const content = block.replace(/<\/?html>/gi, ''); // Remove <html> tags
-							htmlContent += content + '\n';
-						});
-					}
-					if (inlineCss) {
-						inlineCss.forEach((block) => {
-							const content = block.replace(/<\/?style>/gi, ''); // Remove <style> tags
-							cssContent += content + '\n';
-						});
-					}
-					if (inlineJs) {
-						inlineJs.forEach((block) => {
-							const content = block.replace(/<\/?script>/gi, ''); // Remove <script> tags
-							jsContent += content + '\n';
-						});
-					}
-				}
+    } else {
+      // All non-code tokens belong to markdown content
+      if (token.raw) markdown += token.raw;
+      else if (token.text) markdown += token.text;
+    }
+  }
 
-        if (htmlContent || cssContent || jsContent) {
-					const renderedContent = `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <${''}style>
-body {
-    background-color: white;
+  return { html, css, js, markdown, codeBlocks };
 }
-${cssContent}
-    </${''}style>
-</head>
-<body>
-${htmlContent}
-    <${''}script>
-${jsContent}
-    </${''}script>
-</body>
-</html>`;
-					
-					// Create complete source code for HTML artifacts
-					const completeSourceCode = `<!DOCTYPE html>
+const getContents = () => {
+  contents = [];
+
+  messages.forEach((message) => {
+    if (message?.role !== "user" && message?.content) {
+      const {
+        html: htmlContent,
+        css: cssContent,
+        js: jsContent,
+        markdown: markdownContent,
+        codeBlocks
+      } = extractArtifactsFromMessage(message.content);
+
+      // ----------------------------------------------------------------------
+      // 1. Render HTML/CSS/JS → IFRAME ARTIFACT
+      // ----------------------------------------------------------------------
+      if (htmlContent || cssContent || jsContent) {
+        const fullHtml = `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -162,44 +132,69 @@ ${jsContent}
 </body>
 </html>`;
 
+        contents = [
+          ...contents,
+          {
+            type: "iframe",
+            content: fullHtml,
+            sourceCode: fullHtml,
+            editableCode: fullHtml
+          }
+        ];
 
-          contents = [...contents, {
-            type: 'iframe',
-            content: renderedContent,
-			sourceCode: completeSourceCode,
-			editableCode: completeSourceCode
-          }];
-        } else if (markdownContent) {
-          const tokens = marked.lexer(markdownContent);
-          contents = [...contents, {
-            type: 'markdown',
+        return;
+      }
+
+      // ----------------------------------------------------------------------
+      // 2. Markdown Artifact
+      // ----------------------------------------------------------------------
+      if (markdownContent.trim() !== "") {
+        const tokens = marked.lexer(markdownContent);
+
+        contents = [
+          ...contents,
+          {
+            type: "markdown",
             content: tokens,
             sourceCode: markdownContent,
             editableCode: markdownContent
-          }];
-        } else {
-          for (const block of codeBlocks) {
-            if (block.lang === 'svg' || (block.lang === 'xml' && block.code.includes('<svg'))) {
-              contents = [...contents, {
-                type: 'svg',
-                content: block.code,
-                sourceCode: block.code,
-                editableCode: block.code
-              }];
-            }
           }
+        ];
+
+        return;
+      }
+
+      // ----------------------------------------------------------------------
+      // 3. SVG or generic code blocks
+      // ----------------------------------------------------------------------
+      for (const block of codeBlocks) {
+        if (block.lang === "svg" || (block.lang === "xml" && block.code.includes("<svg"))) {
+          contents = [
+            ...contents,
+            {
+              type: "svg",
+              content: block.code,
+              sourceCode: block.code,
+              editableCode: block.code
+            }
+          ];
+          continue;
         }
       }
-    });
-
-    if (contents.length === 0) {
-      showControls.set(false);
-      showArtifacts.set(false);
     }
+  });
 
-    selectedContentIdx = contents ? contents.length - 1 : 0;
-    isEdited = false;
-  };
+  if (contents.length === 0) {
+    showControls.set(false);
+    showArtifacts.set(false);
+  }
+
+  selectedContentIdx = contents.length > 0 ? contents.length - 1 : 0;
+  isEdited = false;
+};
+
+
+
 	function navigateContent(direction: 'prev' | 'next') {
 		selectedContentIdx =
 			direction === 'prev'

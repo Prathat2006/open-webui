@@ -2341,14 +2341,14 @@ def swagger_ui_html(*args, **kwargs):
 
 applications.get_swagger_ui_html = swagger_ui_html
 
-if os.path.exists(FRONTEND_BUILD_DIR):
-    mimetypes.add_type("text/javascript", ".js")
-    app.mount(
-        "/",
-        SPAStaticFiles(directory=FRONTEND_BUILD_DIR, html=True),
-        name="spa-static-files",
-    )
-else:
-    log.warning(
-        f"Frontend build directory not found at '{FRONTEND_BUILD_DIR}'. Serving API only."
-    )
+# if os.path.exists(FRONTEND_BUILD_DIR):
+#     mimetypes.add_type("text/javascript", ".js")
+#     app.mount(
+#         "/",
+#         SPAStaticFiles(directory=FRONTEND_BUILD_DIR, html=True),
+#         name="spa-static-files",
+#     )
+# else:
+#     log.warning(
+#         f"Frontend build directory not found at '{FRONTEND_BUILD_DIR}'. Serving API only."
+#     )
