@@ -102,7 +102,7 @@
 	$: if ($selectedTerminalId && showFilesTab) {
 		activeTab = 'files';
 		if (largeScreen) {
-			showControls.set($settings?.showFilesOnTerminalSelect ?? true);
+			showControls.set(true);
 		}
 	}
 
@@ -157,6 +157,32 @@
 		}
 	};
 
+const saveMessage = async (id: string, newContent: string) => {
+    try {
+        const existingMessage = history.messages[id] || {};
+        const updatedMessage = {
+            ...existingMessage, // preserve chatId, parentId, role, etc.
+             content: String(newContent) // only update content
+        };
+
+        const updatedHistory = {
+            ...history,
+            messages: {
+                ...history.messages,
+                [id]: updatedMessage
+            }
+        };
+
+        await updateChatById(localStorage.token, chatId, {
+            history: updatedHistory,
+            messages: Object.values(updatedHistory.messages)
+        });
+
+        console.log('Saved successfully');
+    } catch (err) {
+        console.error('Error saving message:', err);
+    }
+};
 	export const openPane = () => {
 		if (parseInt(localStorage?.chatControlsSize)) {
 			const container = document.getElementById('chat-container');
@@ -273,6 +299,7 @@
 	$: specialPanel = $showCallOverlay || $showArtifacts || $showEmbeds;
 </script>
 
+<SvelteFlowProvider>
 {#if !largeScreen}
 	{#if $showControls}
 		<Drawer
@@ -444,7 +471,7 @@
 					{:else if $showEmbeds}
 						<Embeds overlay={dragged} />
 					{:else if $showArtifacts}
-						<Artifacts {history} overlay={dragged} />
+					<Artifacts {history} overlay={dragged} saveMessage={saveMessage} />
 					{:else}
 						<!-- Controls + Files tabs -->
 						<div class="flex flex-col h-full min-h-0">
@@ -539,3 +566,6 @@
 		{/if}
 	</Pane>
 {/if}
+</SvelteFlowProvider>
+
+ 
