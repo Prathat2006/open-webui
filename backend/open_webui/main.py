@@ -19,10 +19,14 @@ from fastapi import (
     Request,
     applications,
     status,
+    BackgroundTasks,
+    File,
+    Form,
+    UploadFile,
 )
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.docs import get_swagger_ui_html
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from sqlalchemy import text
@@ -249,6 +253,7 @@ from open_webui.utils.redis import get_redis_client
 from open_webui.utils.security_headers import SecurityHeadersMiddleware
 from open_webui.utils.session_pool import get_session
 from open_webui.utils.tools import set_terminal_servers, set_tool_servers
+from open_webui.Custom.getdocfrommd import convert_md_file
 
 if SAFE_MODE:
     print('SAFE MODE ENABLED')
@@ -2560,6 +2565,20 @@ async def check_db_health():
     """Verify database connectivity by issuing a lightweight ping."""
     await async_db_ping()
     return {'status': True}
+
+@app.post("/convert-md-to-docx")
+async def convert_md_to_docx(file: UploadFile = File(...)):
+    try:
+        file_bytes = await file.read()
+        output_path = convert_md_file(file_bytes, file.filename)
+    except Exception as e:
+        return {"error": str(e)}
+    
+    return FileResponse(
+        output_path,
+        filename=f"{file.filename[:-3]}.docx",
+        media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    )
 
 
 # --- static assets & files ---
